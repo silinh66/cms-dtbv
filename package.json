@@ -1,0 +1,60 @@
+{
+  "name": "ten-ticker",
+  "version": "0.1.0",
+  "homepage": "http://cms.tentickers.net",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "@craco/craco": "^6.1.2",
+    "@testing-library/jest-dom": "^5.11.10",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^12.8.3",
+    "ant-design-pro": "^2.3.2",
+    "antd": "^4.15.2",
+    "axios": "^0.21.1",
+    "craco-less": "^1.17.1",
+    "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "numeral": "^2.0.6",
+    "path": "^0.12.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-google-login": "^5.2.2",
+    "react-highlight-words": "^0.17.0",
+    "react-resizable": "^1.11.1",
+    "react-scripts": "4.0.3",
+    "spdy-transport": "^3.0.0",
+    "ui-glassmorphism": "0.0.1",
+    "web-vitals": "^1.1.1",
+    "xlsx": "^0.17.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build-dev": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "react-scripts start",
+    "watch": "craco start",
+    "build": "craco build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

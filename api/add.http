@@ -1,0 +1,19 @@
+post http://localhost:3000/tenticker/add
+Content-Type: application/json
+
+{
+  "data": [
+      "7",
+    "hello",
+    "",
+    0,
+    "2021-04-25 10:36:54",
+    "",
+    0,
+    "2021-04-25 10:36:54",
+    "",
+    "",
+    0,
+    ""
+  ]
+}
