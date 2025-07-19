@@ -195,7 +195,7 @@ class App extends Component {
     const userInfo = localStorage.getItem("userInfo");
     axios
       .get(
-        "https://sheets.googleapis.com/v4/spreadsheets/1Z_ucuIK9wVHmMiCTThKBLH_3uN2REFW6k31Ov8hgnk0/values:batchGet?ranges=Sheet2&majorDimension=ROWS&key=AIzaSyByXzekuWCb4pI-ZTD7yEAGVYV0224Mc6Q"
+        "https://sheets.googleapis.com/v4/spreadsheets/1xEHFgkYpCFP_hsMTjjb2h5Sl5poJW_heh7fq91k1AyU/values:batchGet?ranges=Sheet2&majorDimension=ROWS&key=AIzaSyByXzekuWCb4pI-ZTD7yEAGVYV0224Mc6Q"
       )
       .then((res) => {
         var username = [],
@@ -576,11 +576,11 @@ class App extends Component {
                 <img
                   src={logo}
                   alt="Logo"
-                  width={50}
-                  height={50}
+                  width={200}
+                  height={30}
                   style={{ margin: 20, marginRight: 10 }}
                 />
-                <Title
+                {/* <Title
                   level={4}
                   style={{
                     color: "#238c31",
@@ -589,8 +589,8 @@ class App extends Component {
                     marginLeft: 0,
                   }}
                 >
-                  EBE MEDIA
-                </Title>
+                  DAUTUBENVUNG
+                </Title> */}
               </div>
 
               <div

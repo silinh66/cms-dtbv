@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Form, Input, Button, Checkbox, notification } from "antd";
+import { Form, Input, Button, Checkbox, notification, Typography } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Background, Card } from "ui-glassmorphism";
+import logo from "../download.png";
 import "ui-glassmorphism/dist/index.css";
 const layout = {
   labelCol: {
@@ -17,7 +18,7 @@ const tailLayout = {
     span: 16,
   },
 };
-
+const { Title } = Typography;
 export default class LoginScreen extends Component {
   onFinish = async (values) => {
     for (let i = 0; i < 66; i++) {
@@ -82,13 +83,21 @@ export default class LoginScreen extends Component {
         blur={0}
         style={{ height: "100%" }}
       >
-        <img
-          src="https://yt3.googleusercontent.com/0cJivFciG1Qi_U52kFapwQF-DwqMo_d68qLhrK8rtuaiDQPFtH-xsC9JT9bnzFaKV0J3mlUylQ=w2120-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
+        {/* <img
+          src="https://i.ibb.co/cKqFwVvv/Screenshot-13.png"
           alt="Logo"
           width="100%"
           height="100%"
           // style={{ display: "flex" }}
+        /> */}
+        <img
+          src={logo}
+          alt="Logo"
+          width={200}
+          height={30}
+          style={{ margin: 20, marginLeft: "45%" }}
         />
+
         <Card
           style={{
             // width: "50%",
