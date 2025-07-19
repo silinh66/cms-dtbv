@@ -1,4 +1,4 @@
-var isProduct = false;
+var isProduct = true;
 
 //local
 // export const apiUrl = "http://127.0.0.1:3000";
@@ -11,6 +11,6 @@ var isProduct = false;
 
 //cPanel
 export const apiUrl = isProduct
-  ? "http://103.116.9.100:3000/api"
+  ? "https://api.dautubenvung.com/api"
   : "http://127.0.0.1:3000/api";
 console.log("apiUrl: ", apiUrl);
