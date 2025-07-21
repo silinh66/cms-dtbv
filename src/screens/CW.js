@@ -331,7 +331,7 @@ export default class CW extends Component {
           },
         },
         {
-          title: "Video gốc",
+          title: "Nội dung Final",
           dataIndex: "content_final",
           key: "content_final",
           sorter: (a, b) => a.content_final.length - b.content_final.length,
