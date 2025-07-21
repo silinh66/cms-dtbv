@@ -574,13 +574,15 @@ class App extends Component {
                 }}
               >
                 <img
-                  src={logo}
+                  src={
+                    "https://yt3.googleusercontent.com/44rY4UUb3o0sKE3yaxn_pdJub7-BGA4t6_fiMe5IMUg5reXtL4iFa_dVZsUUK2fQPkJ4Kc7uhQ=s160-c-k-c0x00ffffff-no-rj"
+                  }
                   alt="Logo"
                   width={200}
-                  height={30}
+                  height={200}
                   style={{ margin: 20, marginRight: 10 }}
                 />
-                {/* <Title
+                <Title
                   level={4}
                   style={{
                     color: "#238c31",
@@ -589,8 +591,8 @@ class App extends Component {
                     marginLeft: 0,
                   }}
                 >
-                  DAUTUBENVUNG
-                </Title> */}
+                  ZOOSTUDIO
+                </Title>
               </div>
 
               <div
