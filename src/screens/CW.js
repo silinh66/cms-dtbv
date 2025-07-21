@@ -348,7 +348,7 @@ export default class CW extends Component {
           },
         },
         {
-          title: "Chú thích nội dung",
+          title: "Mô tả youtube",
           dataIndex: "content_note",
           key: "content_note",
           sorter: (a, b) => a.content_note.length - b.content_note.length,
@@ -812,7 +812,7 @@ export default class CW extends Component {
         5,
         1,
         null,
-        null
+        null,
       ],
     };
     axios.post(`${apiUrl}/tenticker/add`, body).then((res) => {
@@ -1494,7 +1494,7 @@ export default class CW extends Component {
               borderRadius: 5,
               borderColor: "#238c31",
               margin: 20,
-              visibility: 'hidden'
+              visibility: "hidden",
             }}
             onClick={() => {
               this.setState({ isShowModal: true });

@@ -396,7 +396,7 @@ export default class Admin extends Component {
           },
         },
         {
-          title: "Chú thích nội dung",
+          title: "Mô tả youtube",
           dataIndex: "content_note",
           key: "content_note",
           sorter: (a, b) => a.content_note.length - b.content_note.length,
@@ -933,7 +933,7 @@ export default class Admin extends Component {
         5,
         1,
         null,
-        null
+        null,
       ],
     };
     axios.post(`${apiUrl}/tenticker/add`, body).then((res) => {

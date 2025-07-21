@@ -404,7 +404,8 @@ export default class Admin extends Component {
           dataIndex: "confirm_content_date",
           key: "confirm_content_date",
           sorter: (a, b) =>
-            moment(a.confirm_content_date).unix() - moment(b.confirm_content_date).unix(),
+            moment(a.confirm_content_date).unix() -
+            moment(b.confirm_content_date).unix(),
           ellipsis: {
             showTitle: false,
           },
@@ -443,7 +444,7 @@ export default class Admin extends Component {
           },
         },
         {
-          title: "Chú thích nội dung",
+          title: "Mô tả youtube",
           dataIndex: "content_note",
           key: "content_note",
           sorter: (a, b) => a.content_note.length - b.content_note.length,
@@ -612,7 +613,7 @@ export default class Admin extends Component {
           },
         },
         {
-          title: "Chú thích audio",
+          title: "Từ khoá",
           dataIndex: "audio_note",
           key: "audio_note",
           sorter: (a, b) => a.audio_note.length - b.audio_note.length,
@@ -816,7 +817,8 @@ export default class Admin extends Component {
           dataIndex: "confirm_video_date",
           key: "confirm_video_date",
           sorter: (a, b) =>
-            moment(a.confirm_video_date).unix() - moment(b.confirm_video_date).unix(),
+            moment(a.confirm_video_date).unix() -
+            moment(b.confirm_video_date).unix(),
           ellipsis: {
             showTitle: false,
           },
@@ -828,7 +830,7 @@ export default class Admin extends Component {
           ),
         },
         {
-          title: "Chú thích Video",
+          title: "Ảnh thumbnail",
           dataIndex: "video_note",
           key: "video_note",
           sorter: (a, b) => a.video_note.length - b.video_note.length,
@@ -1347,7 +1349,7 @@ export default class Admin extends Component {
         5,
         1,
         null,
-        null
+        null,
       ],
     };
     axios.post(`${apiUrl}/tenticker/add`, body).then((res) => {

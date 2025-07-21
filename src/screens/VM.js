@@ -439,7 +439,7 @@ export default class Admin extends Component {
           },
         },
         {
-          title: "Chú thích Video",
+          title: "Ảnh thumbnail",
           dataIndex: "video_note",
           key: "video_note",
           sorter: (a, b) => a.video_note.length - b.video_note.length,

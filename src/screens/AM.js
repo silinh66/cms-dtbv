@@ -356,7 +356,7 @@ export default class Admin extends Component {
           },
         },
         {
-          title: "Chú thích audio",
+          title: "Từ khoá",
           dataIndex: "audio_note",
           key: "audio_note",
           sorter: (a, b) => a.audio_note.length - b.audio_note.length,
