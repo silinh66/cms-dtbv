@@ -83,20 +83,20 @@ export default class LoginScreen extends Component {
         blur={0}
         style={{ height: "100%" }}
       >
-        {/* <img
-          src="https://i.ibb.co/cKqFwVvv/Screenshot-13.png"
+        <img
+          src="https://yt3.googleusercontent.com/tcj-RRTyVQVSDyEqUJEWkPSTgxFBXhF-sxYaw4PdA79mpxnyeQjei90hFXc_Bng00Rt9pOk_ATE=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
           alt="Logo"
           width="100%"
           height="100%"
           // style={{ display: "flex" }}
-        /> */}
-        <img
+        />
+        {/* <img
           src={logo}
           alt="Logo"
           width={200}
           height={30}
           style={{ margin: 20, marginLeft: "45%" }}
-        />
+        /> */}
 
         <Card
           style={{
