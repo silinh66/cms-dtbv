@@ -11,6 +11,6 @@ var isProduct = true;
 
 //cPanel
 export const apiUrl = isProduct
-  ? "https://api.dautubenvung.com/api"
+  ? "https://api.cms.zoozoostudio.com/api"
   : "http://127.0.0.1:3000/api";
 console.log("apiUrl: ", apiUrl);
