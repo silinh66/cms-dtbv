@@ -1092,7 +1092,7 @@
                                     a.state.dataSource[t.stt - 1].content_note
                                   ) {
                                     var s =
-                                      "Thay \u0111\u1ed5i Content Note c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
+                                      "Thay \u0111\u1ed5i Mô tả youtube c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
                                         .concat(
                                           a.state.dataSource[t.stt - 1]
                                             .full_title,
@@ -1175,7 +1175,7 @@
                                     a.state.dataSource[t.stt - 1].audio_note
                                   ) {
                                     var _ =
-                                      "Thay \u0111\u1ed5i Audio Note c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
+                                      "Thay \u0111\u1ed5i Từ khoá c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
                                         .concat(
                                           a.state.dataSource[t.stt - 1]
                                             .full_title,
@@ -1276,7 +1276,7 @@
                                     a.state.dataSource[t.stt - 1].video_note
                                   ) {
                                     var p =
-                                      "Thay \u0111\u1ed5i Video Note c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
+                                      "Thay \u0111\u1ed5i Ảnh thumbnail c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
                                         .concat(
                                           a.state.dataSource[t.stt - 1]
                                             .full_title,
@@ -1594,13 +1594,13 @@
                         "Writer Name": e.writer_name,
                         "Content Status": e.content_status,
                         "Content Final": e.content_final,
-                        "Content Note": e.content_note,
+                        "Mô tả youtube": e.content_note,
                         "Content Final Date": e.content_date,
                         "Composer Name": e.composer_name,
                         "Audio Date": e.audio_date,
                         "Link Audio": e.link_audio,
                         "Audio Status": e.audio_status,
-                        "Audio Note": e.audio_note,
+                        "Từ khoá": e.audio_note,
                         "Writer Nick": e.writer_nick,
                         "Composer Nick": e.composer_nick,
                         "Editor Name": e.editor_name,
@@ -1608,7 +1608,7 @@
                         "Video Date": e.video_date,
                         "Link Video": e.link_video,
                         "Video Status": e.video_status,
-                        "Video Note": e.video_note,
+                        "Ảnh thumbnail": e.video_note,
                         "Link Youtube": e.link_youtube,
                         "Public Date": e.public_date,
                       };
@@ -1938,7 +1938,7 @@
                     },
                   },
                   {
-                    title: "Content Note",
+                    title: "Mô tả youtube",
                     dataIndex: "content_note",
                     key: "content_note",
                     sorter: function (e, t) {
@@ -2093,7 +2093,7 @@
                     },
                   },
                   {
-                    title: "Audio Note",
+                    title: "Từ khoá",
                     dataIndex: "audio_note",
                     key: "audio_note",
                     sorter: function (e, t) {
@@ -2268,7 +2268,7 @@
                     },
                   },
                   {
-                    title: "Video Note",
+                    title: "Ảnh thumbnail",
                     dataIndex: "video_note",
                     key: "video_note",
                     sorter: function (e, t) {
@@ -4122,7 +4122,7 @@
                     },
                   },
                   {
-                    title: "Content Note",
+                    title: "Mô tả youtube",
                     dataIndex: "content_note",
                     key: "content_note",
                     sorter: function (e, t) {
@@ -5308,7 +5308,7 @@
                     a.state.dataSource[e.stt - 1].content_note
                   ) {
                     var s =
-                      "Thay \u0111\u1ed5i Content Note c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
+                      "Thay \u0111\u1ed5i Mô tả youtube c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
                         .concat(
                           a.state.dataSource[e.stt - 1].full_title,
                           " t\u1eeb "
@@ -5838,7 +5838,7 @@
                     },
                   },
                   {
-                    title: "Content Note",
+                    title: "Mô tả youtube",
                     dataIndex: "content_note",
                     key: "content_note",
                     sorter: function (e, t) {
@@ -7286,7 +7286,7 @@
                     },
                   },
                   {
-                    title: "Audio Note",
+                    title: "Từ khoá",
                     dataIndex: "audio_note",
                     key: "audio_note",
                     sorter: function (e, t) {
@@ -8205,7 +8205,7 @@
                     e.audio_note !== a.state.dataSource[e.stt - 1].audio_note
                   ) {
                     var r =
-                      "Thay \u0111\u1ed5i Audio Note c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
+                      "Thay \u0111\u1ed5i Từ khoá c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
                         .concat(
                           a.state.dataSource[e.stt - 1].full_title,
                           " t\u1eeb "
@@ -8670,7 +8670,7 @@
                     },
                   },
                   {
-                    title: "Audio Note",
+                    title: "Từ khoá",
                     dataIndex: "audio_note",
                     key: "audio_note",
                     sorter: function (e, t) {
@@ -9995,7 +9995,7 @@
                     },
                   },
                   {
-                    title: "Video Note",
+                    title: "Ảnh thumbnail",
                     dataIndex: "video_note",
                     key: "video_note",
                     sorter: function (e, t) {
@@ -10976,7 +10976,7 @@
                     e.video_note !== a.state.dataSource[e.stt - 1].video_note
                   ) {
                     var c =
-                      "Thay \u0111\u1ed5i Video Note c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
+                      "Thay \u0111\u1ed5i Ảnh thumbnail c\u1ee7a ch\u1ee7 \u0111\u1ec1 "
                         .concat(
                           a.state.dataSource[e.stt - 1].full_title,
                           " t\u1eeb "
@@ -11506,7 +11506,7 @@
                     },
                   },
                   {
-                    title: "Video Note",
+                    title: "Ảnh thumbnail",
                     dataIndex: "video_note",
                     key: "video_note",
                     sorter: function (e, t) {

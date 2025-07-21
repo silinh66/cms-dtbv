@@ -1258,7 +1258,7 @@ export default class Admin extends Component {
         record.content_note !==
         this.state.dataSource[record.stt - 1].content_note
       ) {
-        const activity = `Thay đổi Content Note của chủ đề ${
+        const activity = `Thay đổi Mô tả youtube của chủ đề ${
           this.state.dataSource[record.stt - 1].full_title
         } từ ${this.state.dataSource[record.stt - 1].content_note} thành ${
           record.content_note

@@ -1841,7 +1841,7 @@ export default class Admin extends Component {
         record.content_note !==
         this.state.dataSource[record.stt - 1].content_note
       ) {
-        const activity = `Thay đổi Content Note của chủ đề ${
+        const activity = `Thay đổi Mô tả youtube của chủ đề ${
           this.state.dataSource[record.stt - 1].full_title
         } từ ${this.state.dataSource[record.stt - 1].content_note} thành ${
           record.content_note
@@ -1889,7 +1889,7 @@ export default class Admin extends Component {
       if (
         record.audio_note !== this.state.dataSource[record.stt - 1].audio_note
       ) {
-        const activity = `Thay đổi Audio Note của chủ đề ${
+        const activity = `Thay đổi Từ khoá của chủ đề ${
           this.state.dataSource[record.stt - 1].full_title
         } từ ${this.state.dataSource[record.stt - 1].audio_note} thành ${
           record.audio_note
@@ -1945,7 +1945,7 @@ export default class Admin extends Component {
       if (
         record.video_note !== this.state.dataSource[record.stt - 1].video_note
       ) {
-        const activity = `Thay đổi Video Note của chủ đề ${
+        const activity = `Thay đổi Ảnh thumbnail của chủ đề ${
           this.state.dataSource[record.stt - 1].full_title
         } từ ${this.state.dataSource[record.stt - 1].video_note} thành ${
           record.video_note
@@ -2269,13 +2269,13 @@ export default class Admin extends Component {
         "Writer Name": item.writer_name,
         "Content Status": item.content_status,
         "Content Final": item.content_final,
-        "Content Note": item.content_note,
+        "Mô tả youtube": item.content_note,
         "Content Final Date": item.content_date,
         "Composer Name": item.composer_name,
         "Audio Date": item.audio_date,
         "Link Audio": item.link_audio,
         "Audio Status": item.audio_status,
-        "Audio Note": item.audio_note,
+        "Từ khoá": item.audio_note,
         "Writer Nick": item.writer_nick,
         "Composer Nick": item.composer_nick,
         "Editor Name": item.editor_name,
@@ -2283,7 +2283,7 @@ export default class Admin extends Component {
         "Video Date": item.video_date,
         "Link Video": item.link_video,
         "Video Status": item.video_status,
-        "Video Note": item.video_note,
+        "Ảnh thumbnail": item.video_note,
         "Link Youtube": item.link_youtube,
         "Public Date": item.public_date,
       };

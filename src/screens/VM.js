@@ -1041,7 +1041,7 @@ export default class Admin extends Component {
       if (
         record.video_note !== this.state.dataSource[record.stt - 1].video_note
       ) {
-        const activity = `Thay đổi Video Note của chủ đề ${
+        const activity = `Thay đổi Ảnh thumbnail của chủ đề ${
           this.state.dataSource[record.stt - 1].full_title
         } từ ${this.state.dataSource[record.stt - 1].video_note} thành ${
           record.video_note

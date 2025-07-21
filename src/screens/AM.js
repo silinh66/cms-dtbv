@@ -953,7 +953,7 @@ export default class Admin extends Component {
       if (
         record.audio_note !== this.state.dataSource[record.stt - 1].audio_note
       ) {
-        const activity = `Thay đổi Audio Note của chủ đề ${
+        const activity = `Thay đổi Từ khoá của chủ đề ${
           this.state.dataSource[record.stt - 1].full_title
         } từ ${this.state.dataSource[record.stt - 1].audio_note} thành ${
           record.audio_note
