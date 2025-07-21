@@ -707,9 +707,16 @@ export default class Admin extends Component {
     });
     axios.get(`${apiUrl}/tenticker`).then((res) => {
       const { data, id } = this.props;
+      const valueListContenCode = map(
+        this.props.listContentCode,
+        (item, index) => {
+          return item.value;
+        }
+      );
       const dataSource = res.data.data.filter(
         (item) =>
           item.audio_status === 1 &&
+          valueListContenCode.includes(item.content_code) &&
           item.editor_name === data[id + 1][fixUserColumn.cms] &&
           item.is_new === 1
       );
