@@ -1,4 +1,4 @@
-var isProduct = true;
+var isProduct = false;
 
 //local
 // export const apiUrl = "http://127.0.0.1:3000";

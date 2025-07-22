@@ -31,11 +31,13 @@ import {
   FundOutlined,
   LogoutOutlined,
   VideoCameraAddOutlined,
+  CloudUploadOutlined,
 } from "@ant-design/icons";
 import AdminManagement from "./screens/AdminManagement";
 import { fixUserColumn, listAdmin } from "./utils/common";
 import getPublishDate from "./constants.js/youtube";
 import ReportPrivate from "./screens/ReportPrivate";
+import UploadFiles from "./screens/Upload";
 
 // const KEY = "AIzaSyD3uGEgJa2Y-PqhcZ_cessU2xVZglG-sWs";
 
@@ -110,6 +112,7 @@ class App extends Component {
     this.veRef = React.createRef();
     this.adminManagementRef = React.createRef();
     this.reportPrivateRef = React.createRef();
+    this.uploadRef = React.createRef();
   }
 
   components = {
@@ -188,6 +191,8 @@ class App extends Component {
       this.adminManagementRef.current?._onRefreshData();
     } else if (this.state.valueOptions === "private") {
       this.reportPrivateRef.current?._onRefreshData();
+    } else if (this.state.valueOptions === "upload") {
+      this.uploadRef.current?._onRefreshData();
     }
   };
 
@@ -296,6 +301,14 @@ class App extends Component {
               icon: <DesktopOutlined />,
             });
           }
+
+          // Tất cả tài khoản đều có quyền truy cập tab Upload
+          options.push({
+            value: "upload",
+            label: "Upload",
+            icon: <CloudUploadOutlined />,
+          });
+
           if (
             admin[id] == 1 &&
             !includes(
@@ -534,7 +547,16 @@ class App extends Component {
           <ReportPrivate
             data={this.state.dataExcel}
             listContentCode={this.state.listContentCode}
-            ref={this.adminManagementRef}
+            ref={this.reportPrivateRef}
+            id={this.state.id}
+          />
+        );
+      case "upload":
+        return (
+          <UploadFiles
+            data={this.state.dataExcel}
+            listContentCode={this.state.listContentCode}
+            ref={this.uploadRef}
             id={this.state.id}
           />
         );
