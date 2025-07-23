@@ -356,10 +356,26 @@ class UploadFiles extends Component {
     formData.append("file", file);
     formData.append("folderId", selectedFolder);
 
+    // Kiểm tra xem file đã tồn tại trong danh sách đang upload chưa
+    const fileExists = this.state.uploadedList.some(
+      (f) =>
+        f.name === file.name &&
+        f.size === file.size &&
+        (f.status === "uploading" || f.status === "done")
+    );
+
+    if (fileExists) {
+      message.warning(`File ${file.name} đã được chọn để upload`);
+      onError(new Error("File đã tồn tại trong danh sách"));
+      return;
+    }
+
     // Thêm file vào danh sách đang upload trước khi bắt đầu upload
+    const updatedFile = { ...file, status: "uploading" };
+
     this.setState((prevState) => ({
       uploading: true,
-      uploadedList: [...prevState.uploadedList, file],
+      uploadedList: [...prevState.uploadedList, updatedFile],
       uploadProgress: {
         ...prevState.uploadProgress,
         [file.uid]: 0,
@@ -390,7 +406,11 @@ class UploadFiles extends Component {
           const percent = Math.round((loaded / total) * 100);
 
           // Cập nhật percent vào file object
-          const updatedFile = { ...file, percent };
+          const updatedFile = {
+            ...file,
+            percent,
+            status: percent === 100 ? "processing" : "uploading",
+          };
 
           // Cập nhật file trong danh sách uploadedList
           this.setState((prevState) => ({
@@ -492,7 +512,11 @@ class UploadFiles extends Component {
               : f
           ),
           uploading: prevState.uploadedList.some(
-            (f) => f.uid !== file.uid && f.status !== "done"
+            (f) =>
+              f.uid !== file.uid &&
+              (!f.status ||
+                f.status === "uploading" ||
+                f.status === "processing")
           ),
         }));
       })
@@ -508,13 +532,29 @@ class UploadFiles extends Component {
           ),
           uploading: prevState.uploadedList.some(
             (f) =>
-              f.uid !== file.uid && f.status !== "done" && f.status !== "error"
+              f.uid !== file.uid &&
+              (!f.status ||
+                f.status === "uploading" ||
+                f.status === "processing")
           ),
         }));
       });
   };
 
   handleUploadDone = () => {
+    // Kiểm tra xem có file nào đang upload hoặc đang xử lý không
+    const hasUploadingFiles = this.state.uploadedList.some(
+      (file) =>
+        !file.status ||
+        file.status === "uploading" ||
+        file.status === "processing"
+    );
+
+    if (hasUploadingFiles) {
+      message.warning("Vui lòng đợi tất cả file upload hoàn tất");
+      return;
+    }
+
     this.setState({ visibleUploadModal: false });
     this.fetchFiles(this.state.selectedFolder);
   };
@@ -911,21 +951,74 @@ class UploadFiles extends Component {
           title="Upload file"
           visible={visibleUploadModal}
           onCancel={() => {
-            // Hủy tất cả các uploads đang thực hiện (nếu cần)
-            this.setState({ visibleUploadModal: false });
+            // Kiểm tra xem có file nào đang upload không
+            const hasUploadingFiles = this.state.uploadedList.some(
+              (file) =>
+                !file.status ||
+                file.status === "uploading" ||
+                file.status === "processing"
+            );
+
+            if (hasUploadingFiles) {
+              confirm({
+                title: "Có file đang được tải lên",
+                content: "Bạn có chắc muốn hủy tất cả các file đang tải lên?",
+                onOk: () => {
+                  this.setState({
+                    visibleUploadModal: false,
+                    uploadedList: this.state.uploadedList.filter(
+                      (file) => file.status === "done"
+                    ),
+                  });
+                },
+              });
+            } else {
+              this.setState({ visibleUploadModal: false });
+            }
           }}
           width={600}
           footer={[
             <Button
               key="back"
-              onClick={() => this.setState({ visibleUploadModal: false })}
+              onClick={() => {
+                // Kiểm tra xem có file nào đang upload không
+                const hasUploadingFiles = this.state.uploadedList.some(
+                  (file) =>
+                    !file.status ||
+                    file.status === "uploading" ||
+                    file.status === "processing"
+                );
+
+                if (hasUploadingFiles) {
+                  confirm({
+                    title: "Có file đang được tải lên",
+                    content:
+                      "Bạn có chắc muốn hủy tất cả các file đang tải lên?",
+                    onOk: () => {
+                      this.setState({
+                        visibleUploadModal: false,
+                        uploadedList: this.state.uploadedList.filter(
+                          (file) => file.status === "done"
+                        ),
+                      });
+                    },
+                  });
+                } else {
+                  this.setState({ visibleUploadModal: false });
+                }
+              }}
             >
               Đóng
             </Button>,
             <Button
               key="submit"
               type="primary"
-              disabled={uploading}
+              disabled={this.state.uploadedList.some(
+                (file) =>
+                  !file.status ||
+                  file.status === "uploading" ||
+                  file.status === "processing"
+              )}
               onClick={this.handleUploadDone}
             >
               Hoàn thành
