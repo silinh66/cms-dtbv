@@ -15,6 +15,7 @@ import {
   Dropdown,
   Typography,
   Space,
+  Progress,
 } from "antd";
 import {
   UploadOutlined,
@@ -67,6 +68,11 @@ class UploadFiles extends Component {
       breadcrumbItems: ["My Drive"],
       searchValue: "",
       breadcrumbPath: [], // Thêm breadcrumbPath để theo dõi đường dẫn folder
+      // Thêm các trạng thái để theo dõi tiến trình upload
+      uploadProgress: {},
+      uploadSpeed: {},
+      uploadRemaining: {},
+      uploadStartTime: {},
     };
   }
 
@@ -350,9 +356,29 @@ class UploadFiles extends Component {
     formData.append("file", file);
     formData.append("folderId", selectedFolder);
 
-    this.setState({ uploading: true });
+    // Thêm file vào danh sách đang upload trước khi bắt đầu upload
+    this.setState((prevState) => ({
+      uploading: true,
+      uploadedList: [...prevState.uploadedList, file],
+      uploadProgress: {
+        ...prevState.uploadProgress,
+        [file.uid]: 0,
+      },
+      uploadSpeed: {
+        ...prevState.uploadSpeed,
+        [file.uid]: "0 KB/s",
+      },
+      uploadRemaining: {
+        ...prevState.uploadRemaining,
+        [file.uid]: "∞",
+      },
+      uploadStartTime: {
+        ...prevState.uploadStartTime,
+        [file.uid]: Date.now(),
+      },
+    }));
 
-    // Gọi API để upload file
+    // Gọi API để upload file với tracking progress
     axios
       .post(`${apiUrl}/drive-upload`, formData, {
         headers: {
@@ -360,23 +386,131 @@ class UploadFiles extends Component {
           Authorization: `Bearer ${localStorage.getItem("userInfo")}`,
         },
         onUploadProgress: ({ total, loaded }) => {
+          // Tính % đã upload
           const percent = Math.round((loaded / total) * 100);
-          file.percent = percent;
+
+          // Cập nhật percent vào file object
+          const updatedFile = { ...file, percent };
+
+          // Cập nhật file trong danh sách uploadedList
+          this.setState((prevState) => ({
+            uploadedList: prevState.uploadedList.map((f) =>
+              f.uid === file.uid ? updatedFile : f
+            ),
+          }));
+
+          // Lấy thời gian đã trôi qua
+          const elapsedTime =
+            (Date.now() - this.state.uploadStartTime[file.uid]) / 1000; // Đổi sang giây
+
+          // Tính tốc độ upload (bytes/giây)
+          const speed = elapsedTime > 0 ? loaded / elapsedTime : 0;
+
+          // Tính thời gian còn lại (giây)
+          const remainingBytes = total - loaded;
+          const remainingTime = speed > 0 ? remainingBytes / speed : Infinity;
+
+          // Định dạng thời gian còn lại
+          let remainingText;
+          if (remainingTime === Infinity || isNaN(remainingTime)) {
+            remainingText = "∞";
+          } else if (remainingTime < 60) {
+            remainingText = `${Math.round(remainingTime)}s`;
+          } else if (remainingTime < 3600) {
+            remainingText = `${Math.round(remainingTime / 60)}m ${Math.round(
+              remainingTime % 60
+            )}s`;
+          } else {
+            remainingText = `${Math.floor(remainingTime / 3600)}h ${Math.round(
+              (remainingTime % 3600) / 60
+            )}m`;
+          }
+
+          // Định dạng tốc độ upload
+          const speedFormatted =
+            speed < 1024
+              ? `${speed.toFixed(1)} B/s`
+              : speed < 1024 * 1024
+              ? `${(speed / 1024).toFixed(1)} KB/s`
+              : `${(speed / (1024 * 1024)).toFixed(1)} MB/s`;
+
+          // Định dạng bytes đã upload
+          const loadedFormatted =
+            loaded < 1024
+              ? `${loaded} B`
+              : loaded < 1024 * 1024
+              ? `${(loaded / 1024).toFixed(1)} KB`
+              : `${(loaded / (1024 * 1024)).toFixed(1)} MB`;
+
+          // Định dạng tổng bytes
+          const totalFormatted =
+            total < 1024
+              ? `${total} B`
+              : total < 1024 * 1024
+              ? `${(total / 1024).toFixed(1)} KB`
+              : `${(total / (1024 * 1024)).toFixed(1)} MB`;
+
+          // Cập nhật state
+          this.setState((prevState) => ({
+            uploadProgress: {
+              ...prevState.uploadProgress,
+              [file.uid]: percent,
+            },
+            uploadSpeed: {
+              ...prevState.uploadSpeed,
+              [file.uid]: speedFormatted,
+            },
+            uploadRemaining: {
+              ...prevState.uploadRemaining,
+              [file.uid]: remainingText,
+            },
+          }));
+
+          // Lưu thông tin bytes đã upload vào file
+          updatedFile.loadedBytes = loadedFormatted;
+          updatedFile.totalBytes = totalFormatted;
+
+          // Log thông tin để debug
+          console.log(
+            `File: ${file.name}, Progress: ${percent}%, Speed: ${speedFormatted}, Remaining: ${remainingText}, Loaded: ${loadedFormatted}/${totalFormatted}`
+          );
         },
       })
       .then((response) => {
         message.success(`${file.name} đã được tải lên thành công`);
         onSuccess(response.data);
+
+        // Cập nhật trạng thái cho file hoàn thành
         this.setState((prevState) => ({
-          uploadedList: [...prevState.uploadedList, file],
-          uploading: false,
+          uploadProgress: {
+            ...prevState.uploadProgress,
+            [file.uid]: 100,
+          },
+          uploadedList: prevState.uploadedList.map((f) =>
+            f.uid === file.uid
+              ? { ...f, status: "done", response: response.data }
+              : f
+          ),
+          uploading: prevState.uploadedList.some(
+            (f) => f.uid !== file.uid && f.status !== "done"
+          ),
         }));
       })
       .catch((error) => {
         console.error("Upload error:", error);
         message.error(`${file.name} không thể tải lên`);
         onError();
-        this.setState({ uploading: false });
+
+        // Cập nhật trạng thái cho file lỗi
+        this.setState((prevState) => ({
+          uploadedList: prevState.uploadedList.map((f) =>
+            f.uid === file.uid ? { ...f, status: "error", error } : f
+          ),
+          uploading: prevState.uploadedList.some(
+            (f) =>
+              f.uid !== file.uid && f.status !== "done" && f.status !== "error"
+          ),
+        }));
       });
   };
 
@@ -614,6 +748,54 @@ class UploadFiles extends Component {
     }
   };
 
+  // Thêm phương thức render thông tin upload
+  renderUploadInfo = (file) => {
+    const { uploadProgress, uploadSpeed, uploadRemaining } = this.state;
+    const percent = uploadProgress[file.uid] || 0;
+    const speed = uploadSpeed[file.uid] || "0 KB/s";
+    const remaining = uploadRemaining[file.uid] || "∞";
+
+    let status = "active";
+    if (file.status === "done") {
+      status = "success";
+    } else if (file.status === "error") {
+      status = "exception";
+    }
+
+    return (
+      <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 5,
+          }}
+        >
+          <span>{file.name}</span>
+          <span>{percent}%</span>
+        </div>
+        <Progress percent={percent} size="small" status={status} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: "12px",
+            color: "#888",
+            marginTop: 5,
+          }}
+        >
+          <span>Tốc độ: {speed}</span>
+          <span>Còn lại: {remaining}</span>
+        </div>
+        <div style={{ fontSize: "12px", color: "#888" }}>
+          <span>
+            {file.loadedBytes || "0 KB"} / {file.totalBytes || "N/A"}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const {
       loading,
@@ -627,17 +809,28 @@ class UploadFiles extends Component {
       creating,
       visibleUploadModal,
       uploading,
+      uploadedList,
     } = this.state;
     console.log("userChannels", userChannels);
+
     const uploadProps = {
       customRequest: this.handleUpload,
       multiple: true,
-      showUploadList: true,
+      showUploadList: false, // Không sử dụng upload list mặc định của Ant Design
+      progress: {
+        strokeColor: {
+          "0%": "#108ee9",
+          "100%": "#87d068",
+        },
+        size: 3,
+        format: (percent) => `${parseFloat(percent.toFixed(2))}%`,
+      },
     };
 
     return (
       <Spin spinning={loading}>
         <Layout style={{ minHeight: "100vh", background: "#fff" }}>
+          {/* Sider và Content giữ nguyên */}
           <Sider
             width={250}
             style={{ background: "#fff", padding: "16px" }}
@@ -677,7 +870,7 @@ class UploadFiles extends Component {
           </Content>
         </Layout>
 
-        {/* Modal tạo file mới */}
+        {/* Modal tạo file mới - giữ nguyên */}
         <Modal
           title="Tạo file Google Docs mới"
           visible={showCreateDocModal}
@@ -695,7 +888,7 @@ class UploadFiles extends Component {
           />
         </Modal>
 
-        {/* Modal tạo thư mục mới */}
+        {/* Modal tạo thư mục mới - giữ nguyên */}
         <Modal
           title="Tạo thư mục mới"
           visible={showCreateFolderModal}
@@ -713,22 +906,26 @@ class UploadFiles extends Component {
           />
         </Modal>
 
-        {/* Modal upload file */}
+        {/* Modal upload file - cập nhật UI để hiển thị tiến trình */}
         <Modal
           title="Upload file"
           visible={visibleUploadModal}
-          onCancel={() => this.setState({ visibleUploadModal: false })}
+          onCancel={() => {
+            // Hủy tất cả các uploads đang thực hiện (nếu cần)
+            this.setState({ visibleUploadModal: false });
+          }}
+          width={600}
           footer={[
             <Button
               key="back"
               onClick={() => this.setState({ visibleUploadModal: false })}
             >
-              Hủy
+              Đóng
             </Button>,
             <Button
               key="submit"
               type="primary"
-              loading={uploading}
+              disabled={uploading}
               onClick={this.handleUploadDone}
             >
               Hoàn thành
@@ -746,6 +943,27 @@ class UploadFiles extends Component {
               Hỗ trợ tất cả các định dạng file. Kích thước tối đa 100MB.
             </p>
           </Upload.Dragger>
+
+          {/* Hiển thị danh sách các file đang upload với tiến trình */}
+          {uploadedList.length > 0 && (
+            <div style={{ marginTop: 16 }}>
+              <div
+                style={{
+                  borderBottom: "1px solid #f0f0f0",
+                  paddingBottom: 8,
+                  marginBottom: 8,
+                  fontWeight: "bold",
+                }}
+              >
+                Danh sách file ({uploadedList.length})
+              </div>
+              {uploadedList.map((file) => (
+                <div key={file.uid} style={{ marginBottom: 16 }}>
+                  {this.renderUploadInfo(file)}
+                </div>
+              ))}
+            </div>
+          )}
         </Modal>
       </Spin>
     );
